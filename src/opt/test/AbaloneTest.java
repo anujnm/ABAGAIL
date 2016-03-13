@@ -29,7 +29,7 @@ public class AbaloneTest {
     private static Instance[] trainingInstances = initializeInstances(trainingFile, numberTrainingInstances);
     private static Instance[] testingInstances = initializeInstances(testingFile, numberTestingInstances);
 
-    private static int inputLayer = 33, hiddenLayer = 30, outputLayer = 1, trainingIterations = 1000;
+    private static int inputLayer = 33, hiddenLayer = 5, outputLayer = 1, trainingIterations = 1;
     private static BackPropagationNetworkFactory factory = new BackPropagationNetworkFactory();
     
     private static ErrorMeasure measure = new SumOfSquaresError();

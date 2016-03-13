@@ -36,13 +36,13 @@ public class KnapsackTest {
     /** Random number generator */
     private static final Random random = new Random();
     /** The number of items */
-    private static final int NUM_ITEMS = 40;
+    private static final int NUM_ITEMS = 20;
     /** The number of copies each */
-    private static final int COPIES_EACH = 4;
+    private static final int COPIES_EACH = 2;
     /** The maximum weight for a single element */
     private static final double MAX_WEIGHT = 50;
     /** The maximum volume for a single element */
-    private static final double MAX_VOLUME = 50;
+    private static final double MAX_VOLUME = 100;
     /** The volume of the knapsack */
     private static final double KNAPSACK_VOLUME = 
          MAX_VOLUME * NUM_ITEMS * COPIES_EACH * .4;
@@ -58,11 +58,14 @@ public class KnapsackTest {
         for (int i = 0; i < NUM_ITEMS; i++) {
             weights[i] = random.nextDouble() * MAX_WEIGHT;
             volumes[i] = random.nextDouble() * MAX_VOLUME;
+            //System.out.println("Weight for " + i + " is " + weights[i]);
+            //System.out.println("Volumes for " + i + " is " + volumes[i]);
         }
          int[] ranges = new int[NUM_ITEMS];
         Arrays.fill(ranges, COPIES_EACH + 1);
         EvaluationFunction ef = new KnapsackEvaluationFunction(weights, volumes, KNAPSACK_VOLUME, copies);
         Distribution odd = new DiscreteUniformDistribution(ranges);
+        //System.out.println("Sampele is " + odd.sample());
         NeighborFunction nf = new DiscreteChangeOneNeighbor(ranges);
         MutationFunction mf = new DiscreteChangeOneMutation(ranges);
         CrossoverFunction cf = new UniformCrossOver();
@@ -74,22 +77,25 @@ public class KnapsackTest {
         RandomizedHillClimbing rhc = new RandomizedHillClimbing(hcp);      
         FixedIterationTrainer fit = new FixedIterationTrainer(rhc, 200000);
         fit.train();
-        System.out.println(ef.value(rhc.getOptimal()));
+        System.out.println("RHC: " + ef.value(rhc.getOptimal()));
+        System.out.println("============================");
         
         SimulatedAnnealing sa = new SimulatedAnnealing(100, .95, hcp);
         fit = new FixedIterationTrainer(sa, 200000);
         fit.train();
-        System.out.println(ef.value(sa.getOptimal()));
+        System.out.println("SA:" + ef.value(sa.getOptimal()));
+        System.out.println("============================");
         
         StandardGeneticAlgorithm ga = new StandardGeneticAlgorithm(200, 150, 25, gap);
-        fit = new FixedIterationTrainer(ga, 1000);
+        fit = new FixedIterationTrainer(ga, 5000);
         fit.train();
-        System.out.println(ef.value(ga.getOptimal()));
+        System.out.println("GA: " + ef.value(ga.getOptimal()));
+        System.out.println("============================");
         
         MIMIC mimic = new MIMIC(200, 100, pop);
         fit = new FixedIterationTrainer(mimic, 1000);
         fit.train();
-        System.out.println(ef.value(mimic.getOptimal()));
+        System.out.println("MIMIC: " + ef.value(mimic.getOptimal()));
     }
 
 }

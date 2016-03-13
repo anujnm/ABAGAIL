@@ -16,11 +16,14 @@ public class SwapNeighbor implements NeighborFunction {
      */
     public Instance neighbor(Instance d) {
         Instance cod = (Instance) d.copy();
+        //System.out.println("Instance is " + cod.toString());
         int i = Distribution.random.nextInt(cod.getData().size());
         int j = Distribution.random.nextInt(cod.getData().size());
+        //System.out.println("i and j are: " + i + ", " + j);
         double temp = cod.getContinuous(i);
         cod.getData().set(i, cod.getContinuous(j));
         cod.getData().set(j, temp);
+        //System.out.println("Returned Instance is " + cod.toString());
         return cod;
     }
 }
