@@ -61,4 +61,6 @@ public interface Distribution extends Serializable {
      */
     public abstract void estimate(DataSet set);
 
+    public abstract double[] getProbabilities();
+
 }

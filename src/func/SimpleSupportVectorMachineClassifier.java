@@ -112,4 +112,8 @@ public class SimpleSupportVectorMachineClassifier extends AbstractConditionalDis
         this.kernel = kernel;
     }
 
+    public double[] getProbabilities() {
+        double[] a = {};
+        return a;
+    }
 }

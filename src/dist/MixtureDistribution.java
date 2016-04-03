@@ -174,4 +174,8 @@ public class MixtureDistribution extends AbstractDistribution implements Copyabl
           ((DiscreteDistribution) componentDistribution.copy()));
     }
 
+    public double[] getProbabilities() {
+        double[] a = {};
+        return a;
+    }
 }

@@ -1,12 +1,21 @@
 package func.test;
 
+import dist.DiscreteDistribution;
 import dist.Distribution;
 import dist.MultivariateGaussian;
 import func.KMeansClusterer;
 import shared.DataSet;
+import shared.DistanceMeasure;
+import shared.EuclideanDistance;
 import shared.Instance;
+import shared.reader.ArffDataSetReader;
+import shared.reader.DataSetReader;
 import util.linalg.DenseVector;
 import util.linalg.RectangularMatrix;
+
+import java.io.File;
+import java.io.PrintWriter;
+import java.text.DecimalFormat;
 
 /**
  * Testing
@@ -14,24 +23,40 @@ import util.linalg.RectangularMatrix;
  * @version 1.0
  */
 public class KMeansClustererTest {
+
     /**
      * The test main
      * @param args ignored
      */
     public static void main(String[] args) throws Exception {
-        Instance[] instances = new Instance[100];
-        MultivariateGaussian mga = new MultivariateGaussian(new DenseVector(new double[] {10, 20, 30}), RectangularMatrix.eye(3).times(.5)); 
-        MultivariateGaussian mgb = new MultivariateGaussian(new DenseVector(new double[] {-2, -3, -1}), RectangularMatrix.eye(3).times(.4)); 
-        for (int i = 0; i < instances.length; i++) {
-            if (Distribution.random.nextBoolean()) {
-                instances[i] = mga.sample(null);   
-            } else {
-                instances[i] = mgb.sample(null);
-            }
-        }
-        DataSet set = new DataSet(instances);
-        KMeansClusterer km = new KMeansClusterer();
+
+        DataSetReader dsr = new ArffDataSetReader(new File("").getAbsolutePath() + "/krvskp_binary_train.arff");
+        // read in the raw data
+        DataSet set = dsr.read();
+        DataSet set2 = dsr.read();
+
+        KMeansClusterer km = new KMeansClusterer(21);
         km.estimate(set);
         System.out.println(km);
+        PrintWriter writer = new PrintWriter("krvskp_KMeans_" + System.currentTimeMillis() + ".csv", "UTF-8");
+        for (int i = 0; i < set.size(); i ++) {
+
+            Instance instance = set.get(i);
+            Distribution dist = km.distributionFor(instance);
+            double[] probabilities = dist.getProbabilities();
+
+            Double output = set2.get(i).getData().get(40);
+            String label = "won";
+            if (output > 0.5) {
+                label = "nowin";
+            }
+            double value = probabilities[0];
+            String cluster_attribute = new DecimalFormat("#.######").format(value);
+            writer.println(instance.getData().toString() + "," + cluster_attribute + ',' + label);
+
+        }
+        writer.close();
+        //System.out.println("Total score = " + total);
+        //writer.close();
     }
 }

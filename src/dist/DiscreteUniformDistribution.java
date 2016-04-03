@@ -64,4 +64,9 @@ public class DiscreteUniformDistribution extends AbstractDistribution {
     public void estimate(DataSet observations) {
         return;
     }
+
+    public double[] getProbabilities() {
+        double[] a = {};
+        return a;
+    }
 }

@@ -182,6 +182,9 @@ public class DiscreteDistributionTable extends AbstractConditionalDistribution i
         return copy;
     }
 
-
+    public double[] getProbabilities() {
+        double[] a = {};
+        return a;
+    }
 
 }

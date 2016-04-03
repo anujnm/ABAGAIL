@@ -305,5 +305,8 @@ public class DecisionTreeClassifier extends AbstractConditionalDistribution impl
     }
 
 
-
+    public double[] getProbabilities() {
+        double[] a = {};
+        return a;
+    }
 }

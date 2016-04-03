@@ -99,6 +99,10 @@ public class GaussianProcessRegression extends AbstractConditionalDistribution i
             kernel.value(instance, instance) - k.dotProduct(cf.solve(k)));
         return new UnivariateGaussian(mean, sigma);
     }
-    
+
+    public double[] getProbabilities() {
+        double[] a = {};
+        return a;
+    }
 
 }

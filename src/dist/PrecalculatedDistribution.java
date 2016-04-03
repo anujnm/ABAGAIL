@@ -73,6 +73,9 @@ public class PrecalculatedDistribution extends AbstractDistribution implements C
     }
 
 
-
+    public double[] getProbabilities() {
+        double[] a = {};
+        return a;
+    }
 
 }

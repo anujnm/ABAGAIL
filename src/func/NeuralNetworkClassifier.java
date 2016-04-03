@@ -122,4 +122,9 @@ public class NeuralNetworkClassifier extends AbstractConditionalDistribution imp
     public Instance value(Instance i) {
         return distributionFor(i).mode();
     }
+
+    public double[] getProbabilities() {
+        double[] a = {};
+        return a;
+    }
 }

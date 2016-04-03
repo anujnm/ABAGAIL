@@ -160,5 +160,8 @@ public class KMeansClusterer extends AbstractConditionalDistribution implements 
         return result;
     }
 
-
+    public double[] getProbabilities() {
+        double[] a = {};
+        return a;
+    }
 }

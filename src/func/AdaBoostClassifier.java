@@ -206,5 +206,9 @@ public class AdaBoostClassifier extends AbstractConditionalDistribution implemen
         return ret;
     }
 
+    public double[] getProbabilities() {
+        double[] a = {};
+        return a;
+    }
 
 }

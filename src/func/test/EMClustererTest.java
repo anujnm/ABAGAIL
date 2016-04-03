@@ -5,8 +5,14 @@ import dist.MultivariateGaussian;
 import func.EMClusterer;
 import shared.DataSet;
 import shared.Instance;
+import shared.reader.ArffDataSetReader;
+import shared.reader.DataSetReader;
 import util.linalg.DenseVector;
 import util.linalg.RectangularMatrix;
+
+import java.io.File;
+import java.io.PrintWriter;
+import java.text.DecimalFormat;
 
 /**
  * Testing
@@ -19,19 +25,27 @@ public class EMClustererTest {
      * @param args ignored
      */
     public static void main(String[] args) throws Exception {
-        Instance[] instances = new Instance[100];
-        MultivariateGaussian mga = new MultivariateGaussian(new DenseVector(new double[] {100, 100, 100}), RectangularMatrix.eye(3).times(.01)); 
-        MultivariateGaussian mgb = new MultivariateGaussian(new DenseVector(new double[] {-1, -1, -1}), RectangularMatrix.eye(3).times(10)); 
-         for (int i = 0; i < instances.length; i++) {
-            if (Distribution.random.nextBoolean()) {
-                instances[i] = mga.sample(null);   
-            } else {
-                instances[i] = mgb.sample(null);
-            }
-        }
-        DataSet set = new DataSet(instances);
+        DataSetReader dsr = new ArffDataSetReader(new File("").getAbsolutePath() + "/sick_replace_missing.arff");
+        // read in the raw data
+        DataSet set = dsr.read();
+        DataSet set2 = dsr.read();
         EMClusterer em = new EMClusterer();
         em.estimate(set);
         System.out.println(em);
+
+        PrintWriter writer = new PrintWriter("sick_EM_" + System.currentTimeMillis() + ".csv", "UTF-8");
+        for (int i = 0; i < set.size(); i ++) {
+            Instance instance = set.get(i);
+            Distribution dist = em.distributionFor(instance);
+            double[] probabilities = dist.getProbabilities();
+            Double output = set2.get(i).getData().get(33);
+            String label = "negative";
+            if (output > 0.5) {
+                label = "sick";
+            }
+            double value = probabilities[0];
+            String cluster_attribute = new DecimalFormat("#.######").format(value);
+            writer.println(instance.getData().toString() + "," + cluster_attribute + ',' + label);
+        }
     }
 }

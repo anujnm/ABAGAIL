@@ -216,5 +216,8 @@ public class DiscreteDependencyTree extends AbstractDistribution {
     }
 
 
-
+    public double[] getProbabilities() {
+        double[] a = {};
+        return a;
+    }
 }

@@ -198,4 +198,8 @@ public class EMClusterer extends AbstractConditionalDistribution implements Func
     }
 
 
+    public double[] getProbabilities() {
+        double[] a = {};
+        return a;
+    }
 }

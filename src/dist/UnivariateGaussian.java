@@ -129,4 +129,9 @@ public class UnivariateGaussian extends AbstractDistribution implements Copyable
     public Copyable copy() {
         return new UnivariateGaussian(mean, sigma);
     }
+
+    public double[] getProbabilities() {
+        double[] a = {};
+        return a;
+    }
 }

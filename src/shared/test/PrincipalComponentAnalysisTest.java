@@ -1,9 +1,16 @@
 package shared.test;
 
 import shared.DataSet;
+import shared.DistanceMeasure;
+import shared.EuclideanDistance;
 import shared.Instance;
 import shared.filt.PrincipalComponentAnalysis;
+import shared.reader.ArffDataSetReader;
+import shared.reader.DataSetReader;
 import util.linalg.Matrix;
+
+import java.io.File;
+import java.io.PrintWriter;
 
 /**
  * A class for testing
@@ -16,15 +23,11 @@ public class PrincipalComponentAnalysisTest {
      * The test main
      * @param args ignored
      */
-    public static void main(String[] args) {
-        Instance[] instances =  {
-            new Instance(new double[] {1,1,0,0,0,0,0,0}),
-            new Instance(new double[] {0,0,1,1,1,0,0,0}),
-            new Instance(new double[] {0,0,0,0,1,1,1,1}),
-            new Instance(new double[] {1,0,1,0,1,0,1,0}),
-            new Instance(new double[] {1,1,0,0,1,1,0,0}),
-        };
-        DataSet set = new DataSet(instances);
+    public static void main(String[] args) throws Exception {
+        DataSetReader dsr = new ArffDataSetReader(new File("").getAbsolutePath() + "/sick_replace_missing.arff");
+        // read in the raw data
+        DataSet set = dsr.read();
+        DataSet set2 = dsr.read();
         System.out.println("Before PCA");
         System.out.println(set);
         PrincipalComponentAnalysis filter = new PrincipalComponentAnalysis(set);
@@ -33,14 +36,18 @@ public class PrincipalComponentAnalysisTest {
         filter.filter(set);
         System.out.println("After PCA");
         System.out.println(set);
-        Matrix reverse = filter.getProjection().transpose();
-        for (int i = 0; i < set.size(); i++) {
+
+        PrintWriter writer = new PrintWriter("sick_PCA_" + System.currentTimeMillis() + ".csv", "UTF-8");
+        for (int i = 0; i < set.size(); i ++) {
             Instance instance = set.get(i);
-            instance.setData(reverse.times(instance.getData()).plus(filter.getMean()));
+            Double output = set2.get(i).getData().get(33);
+            String str_out = "negative";
+            if (output > 0.5) {
+                str_out = "sick";
+            }
+            writer.println(instance.getData().toString() + ',' + str_out);
         }
-        System.out.println("After reconstructing");
-        System.out.println(set);
-        
+        writer.close();
     }
 
 }

@@ -251,4 +251,8 @@ public class MultivariateGaussian extends AbstractDistribution  implements Copya
                     (Matrix) covarianceMatrix.copy(), floor);
     }
 
+    public double[] getProbabilities() {
+        double[] a = {};
+        return a;
+    }
 }

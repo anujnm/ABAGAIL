@@ -143,5 +143,8 @@ public class DecisionStumpClassifier extends AbstractConditionalDistribution imp
         return stump.toString();
     }
 
-
+    public double[] getProbabilities() {
+        double[] a = {};
+        return a;
+    }
 }

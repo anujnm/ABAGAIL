@@ -206,6 +206,11 @@ public class KNNClassifier extends AbstractConditionalDistribution implements Fu
         weightByDistance = b;
     }
 
+    public double[] getProbabilities() {
+        double[] a = {};
+        return a;
+    }
+
 }
 
 

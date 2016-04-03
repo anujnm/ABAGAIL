@@ -1,9 +1,15 @@
 package shared.test;
 
 import shared.DataSet;
+import shared.DistanceMeasure;
+import shared.EuclideanDistance;
 import shared.Instance;
 import shared.filt.LinearDiscriminantAnalysis;
+import shared.reader.ArffDataSetReader;
+import shared.reader.DataSetReader;
 import util.linalg.DenseVector;
+
+import java.io.File;
 
 /**
  * A class for testing
@@ -16,15 +22,11 @@ public class LinearDiscriminantAnalysisTest {
      * The test main
      * @param args ignored
      */
-    public static void main(String[] args) {
-        Instance[] instances =  {
-            new Instance(new DenseVector(new double[] {100,1,0,0,0,0,0,0}), new Instance(1)),
-            new Instance(new DenseVector(new double[] {0,0,10,10,100,0,0,0}), new Instance(0)),
-            new Instance(new DenseVector(new double[] {0,0,0,0,1,1,10,10}), new Instance(0)),
-            new Instance(new DenseVector(new double[] {100,0,10,0,1,0,1,0}), new Instance(1)),
-            new Instance(new DenseVector(new double[] {100,10,0,0,10,1,0,0}), new Instance(1)),
-        };
-        DataSet set = new DataSet(instances);
+    public static void main(String[] args) throws Exception {
+        DataSetReader dsr = new ArffDataSetReader(new File("").getAbsolutePath() + "/krvskp_binary_train.arff");
+        // read in the raw data
+        DataSet set = dsr.read();
+        DataSet set2 = dsr.read();
         System.out.println("Before LDA");
         System.out.println(set);
         LinearDiscriminantAnalysis filter = new LinearDiscriminantAnalysis(set);
@@ -35,6 +37,16 @@ public class LinearDiscriminantAnalysisTest {
         filter.reverse(set);
         System.out.println("After reconstructing");
         System.out.println(set);
+
+        DistanceMeasure dm = new EuclideanDistance();
+        double total = 0.0;
+        for(int i = 0; i < set.size(); i++) {
+            Instance original = set2.get(i);
+            Instance reconstructed = set.get(i);
+            total += dm.value(original, reconstructed);
+        }
+
+        System.out.println("Reconstruction error: " + total);
         
     }
 

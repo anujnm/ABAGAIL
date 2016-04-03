@@ -151,6 +151,9 @@ public class FixedComponentMixtureDistribution extends AbstractDistribution impl
             ((DiscreteDistribution) componentDistribution.copy()));
     }
 
-
+    public double[] getProbabilities() {
+        double[] a = {};
+        return a;
+    }
 
 }

@@ -86,4 +86,9 @@ public class FixedDistribution extends AbstractDistribution implements Copyable 
     public void setDistribution(Distribution dist) {
         this.dist = dist;
     }
+
+    public double[] getProbabilities() {
+        double[] a = {};
+        return a;
+    }
 }
